@@ -5,13 +5,21 @@ Overview
 The generator creates a complete enterprise Asana workspace with:
 
 1 Organization (B2B SaaS company)
+
 25 Teams (Engineering, Product, Marketing, Sales, Customer Success, Operations)
+
 5000-10000 Users with realistic names from census data
+
 100+ Projects across different team workflows
+
 2000+ Tasks with realistic naming patterns based on GitHub issues and Asana templates
+
 Comments, Custom Fields, Tags and other metadata
+
 Features
+
 Data Realism
+
 Task names follow real-world patterns: "Implement OAuth 2.0 authentication flow" not "Task 1"
 Census-based name distribution: First and last names from US Census data
 Research-backed distributions:
@@ -20,25 +28,7 @@ Due date patterns (25% within 1 week, 40% within 1 month, 10% no due date)
 Assignment rates (15% unassigned per Asana benchmarks)
 Temporal consistency: Tasks completed after creation, comments spread over task lifetime
 Department-specific patterns: Engineering tasks follow "[Component] - [Action]" pattern, Marketing tasks follow "[Campaign] - [Deliverable]"
-Project Structure
-├── README.md
-├── requirements.txt
-├── schema.sql
-├── .env.example
-├── src/
-│   ├── main.py
-│   ├── utils.py
-│   └── generators/
-│       ├── organizations.py
-│       ├── teams.py
-│       ├── users.py
-│       ├── projects.py
-│       ├── tasks.py
-│       ├── comments.py
-│       ├── custom_fields.py
-│       └── tags.py
-└── output/
-    └── asana_simulation.sqlite
+
 Setup Instructions
 Prerequisites
 Python 3.8 or higher
@@ -51,10 +41,11 @@ pip install -r requirements.txt
 (Optional) Set up Anthropic API for LLM-generated content:
 bash
 cp .env.example .env
-# Edit .env and add your ANTHROPIC_API_KEY
+
+
 Note: LLM integration is optional. The generator uses template-based generation by default, which produces equally realistic data without requiring an API key.
 
-Running the Generator
+# Running the Generator
 bash
 python src/main.py
 The script will:
@@ -200,20 +191,21 @@ In-progress tasks in earlier sections
 Custom Fields
 Field definitions scoped to projects
 Values only for tasks in same project
+
 Data Quality Checks
-Run these queries to verify data quality:
+# Run these queries to verify data quality:
 
 sql
--- Check temporal consistency
+# Check temporal consistency
 SELECT COUNT(*) FROM tasks 
 WHERE completed_at < created_at; -- Should be 0
 
--- Verify assignment distribution
+# Verify assignment distribution
 SELECT 
     ROUND(COUNT(CASE WHEN assignee_id IS NULL THEN 1 END) * 100.0 / COUNT(*), 2) as unassigned_pct
 FROM tasks; -- Should be ~15%
 
--- Check completion rates by project type
+# Check completion rates by project type
 SELECT 
     p.project_type,
     ROUND(AVG(CASE WHEN t.completed THEN 1.0 ELSE 0.0 END) * 100, 2) as completion_pct
@@ -221,7 +213,7 @@ FROM tasks t
 JOIN projects p ON t.project_id = p.project_id
 GROUP BY p.project_type;
 
--- Verify due date distribution
+# Verify due date distribution
 SELECT 
     CASE 
         WHEN due_date IS NULL THEN 'No due date'
@@ -237,32 +229,7 @@ WHERE parent_task_id IS NULL
 GROUP BY due_date_category;
 Extending the Generator
 Adding New Project Types
-Edit generators/projects.py:
-python
-PROJECT_TEMPLATES['YourDepartment'] = [
-    {'name': 'Your Project Name', 'type': 'sprint'},
-]
-Add task patterns in generators/tasks.py:
-python
-TASK_PATTERNS['YourDepartment'] = {
-    'examples': [
-        'Your realistic task name here',
-    ]
-}
-Customizing Distributions
-Edit distribution weights in the respective generators:
 
-Completion rates: utils.calculate_completion_status()
-Due dates: utils.generate_due_date()
-Team sizes: generators/users.py dept_distribution
-Troubleshooting
-Low Task Count
-Increase number of projects per team
-Adjust num_tasks ranges in generators/tasks.py
-Performance Issues
-Reduce employee_count in CONFIG
-Disable LLM calls (already disabled by default)
-Use batch inserts (already implemented)
 Inconsistent Timestamps
 Check system clock
 Verify start_date < end_date in CONFIG
@@ -272,3 +239,4 @@ All code is provided for evaluation purposes.
 
 Contact
 For questions about this implementation, refer to the submitted documentation.
+
