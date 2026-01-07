@@ -99,113 +99,24 @@ Research-Backed Distributions
 Task Completion Rates
 Source: Asana "Anatomy of Work" reports
 
-Sprint projects: 70-85%
-Bug tracking: 60-70%
-Ongoing projects: 40-50%
-Completion time: Log-normal distribution, mean ~6 days
-Due Date Patterns
-Source: Industry research on sprint durations and planning horizons
 
-25% within 1 week
-40% within 1 month
-20% 1-3 months out
-10% no due date
-5% overdue
-85% avoid weekends
-Team Size Distribution
-Source: Industry data on SaaS company composition
-
-Engineering: 35%
-Sales: 20%
-Customer Success: 15%
-Marketing: 12%
-Product: 10%
-Operations: 8%
-Real-World Data Sources
-Company Names
-Sourced from YC company directory patterns
-B2B SaaS naming conventions (DataStream, CloudSync, MetricsHub)
-User Names
-First names: US Census Bureau top 100 names
-Last names: US Census Bureau top 150 surnames
-Reflects demographic diversity
-Project Names
-Derived from:
-Asana community templates
-GitHub project board patterns
-ProductHunt launch naming
-Examples: "Q4 2025 Sprint Planning", "API v2.0 Migration"
-Task Names
-Patterns extracted from:
-200+ public GitHub issues
-Asana template library
-Real project management data
-Engineering: "[Component] - [Action] - [Detail]"
-Marketing: "[Campaign] - [Deliverable]"
-Product: "[Feature] - [Activity]"
 LLM Content Generation
-The generator supports optional LLM integration for enhanced variety:
+The generator supports optional LLM integration for enhanced variety.
 
-When enabled (requires ANTHROPIC_API_KEY):
-
-30% of task names generated via LLM
-20% of descriptions use LLM
-Temperature: 0.8-0.9 for variety
-Prompts include project context and patterns
-Default template-based approach:
-
-Uses curated examples from real data
-Applies randomization for variety
-No API key required
-Produces equally realistic results
-Temporal Consistency Checks
-Task Creation → Completion
-completed_at always >= created_at
-Follows log-normal distribution for cycle time
-Task Creation → Due Date
-Due dates in future or reasonable past
-Sprint tasks: 2-6 weeks from creation
-Campaign tasks: 1-3 months from creation
-Project Timeline → Task Creation
-Tasks created within project lifetime
-Higher creation rates Mon-Wed
-Task Lifetime → Comments
-Comments between task creation and completion
-Distributed across task duration
-User Join Date → Activity
-Users can only create/comment on tasks after joining
-Relational Consistency
-Team Membership
-Users assigned to teams in their department
-75% single-team, 25% cross-functional (2 teams)
-Project Ownership
-Project owners are team members
-Prefer leads/managers for owner role
-Task Assignment
-Tasks assigned to project team members
-15% unassigned (Asana benchmark)
-Workload distribution considered
-Section Consistency
-Completed tasks in "Done"/"Completed" sections
-In-progress tasks in earlier sections
-Custom Fields
-Field definitions scoped to projects
-Values only for tasks in same project
-
-Data Quality Checks
-# Run these queries to verify data quality:
+# Data Quality Checks
+## Run these queries to verify data quality:
 
 sql
-# Check temporal consistency
+## Check temporal consistency
 SELECT COUNT(*) FROM tasks 
 WHERE completed_at < created_at; -- Should be 0
 
-# Verify assignment distribution
+## Verify assignment distribution
 SELECT 
     ROUND(COUNT(CASE WHEN assignee_id IS NULL THEN 1 END) * 100.0 / COUNT(*), 2) as unassigned_pct
 FROM tasks; -- Should be ~15%
 
-# Check completion rates by project type
+## Check completion rates by project type
 SELECT 
     p.project_type,
     ROUND(AVG(CASE WHEN t.completed THEN 1.0 ELSE 0.0 END) * 100, 2) as completion_pct
@@ -213,7 +124,7 @@ FROM tasks t
 JOIN projects p ON t.project_id = p.project_id
 GROUP BY p.project_type;
 
-# Verify due date distribution
+## Verify due date distribution
 SELECT 
     CASE 
         WHEN due_date IS NULL THEN 'No due date'
@@ -239,4 +150,5 @@ All code is provided for evaluation purposes.
 
 Contact
 For questions about this implementation, refer to the submitted documentation.
+
 
