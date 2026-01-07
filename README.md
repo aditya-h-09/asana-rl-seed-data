@@ -7,31 +7,31 @@ This project generates realistic, high-quality seed data for an Asana reinforcem
 
 ## Overview
 The generator creates a complete enterprise Asana workspace with:
-* **1 Organization:** A simulated B2B SaaS company.
-* **25 Teams:** Including Engineering, Product, Marketing, Sales, Customer Success, and Operations.
-* **5,000–10,000 Users:** Featuring realistic names from US Census data.
-* **100+ Projects:** Spanning different team workflows.
-* **2,000+ Tasks:** Using realistic naming patterns based on GitHub issues and Asana templates.
-* **Metadata:** Includes comments, custom fields, tags, and attachments.
+* 1 Organization: A simulated B2B SaaS company.
+* 25 Teams: Including Engineering, Product, Marketing, Sales, Customer Success, and Operations.
+* 5,000–10,000 Users: Featuring realistic names from US Census data.
+* 100+ Projects: Spanning different team workflows.
+* 2,000+ Tasks: Using realistic naming patterns based on GitHub issues and Asana templates.
+* Metadata: Includes comments, custom fields, tags, and attachments.
 
 ## Features
 
-### Data Realism
-* **Task Naming:** Follows real-world patterns (e.g., "Implement OAuth 2.0 authentication flow" instead of "Task 1").
-* **Name Distribution:** First and last names are pulled from US Census data.
-* **Research-Backed Distributions:** * **Task Completion Rates:** Based on project type (70–85% for sprints, 40–50% for ongoing tasks).
-    * **Due Date Patterns:** 25% within 1 week, 40% within 1 month, 10% with no due date.
-    * **Assignment Rates:** Approximately 15% unassigned, per Asana benchmarks.
-* **Temporal Consistency:** Tasks are completed after creation; comments are spread across the task lifetime.
-* **Department-Specific Patterns:** Engineering tasks follow a `[Component] - [Action]` pattern, while Marketing follows `[Campaign] - [Deliverable]`.
+1. Data Realism
+* Task Naming: Follows real-world patterns (e.g., "Implement OAuth 2.0 authentication flow" instead of "Task 1").
+* Name Distribution: First and last names are pulled from US Census data.
+* Research-Backed Distributions:Task Completion Rates: Based on project type (70–85% for sprints, 40–50% for ongoing tasks).
+    * Due Date Patterns: 25% within 1 week, 40% within 1 month, 10% with no due date.
+    * Assignment Rates: Approximately 15% unassigned, per Asana benchmarks.
+* Temporal Consistency: Tasks are completed after creation; comments are spread across the task lifetime.
+* Department-Specific Patterns: Engineering tasks follow a `[Component] - [Action]` pattern, while Marketing follows `[Campaign] - [Deliverable]`.
 
 ## Setup Instructions
 
-### Prerequisites
+1) Prerequisites
 * Python 3.8 or higher
 * pip
 
-### Installation
+2) Installation
 1. Clone or download the repository.
 2. Install dependencies:
    ```bash
@@ -39,7 +39,7 @@ The generator creates a complete enterprise Asana workspace with:
 
 ```
 
-3. (Optional) Set up Anthropic API for LLM-generated content:
+3) (Optional) Set up API for LLM-generated content:
 ```bash
 cp .env.example .env
 
@@ -144,3 +144,4 @@ SELECT CASE
 All code is provided for evaluation purposes.
 
 ```
+
